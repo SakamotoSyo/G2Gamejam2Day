@@ -506,6 +506,10 @@ PrefabInstance:
       propertyPath: _jumpPower
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2397401401337543427, guid: 11dcc2d2039430f43b0edb8708604563, type: 3}
+      propertyPath: _moveSpeed
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2969944616566209770, guid: 11dcc2d2039430f43b0edb8708604563, type: 3}
       propertyPath: Damping.x
       value: 0
