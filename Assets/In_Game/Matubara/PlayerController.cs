@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour, IPlayer
     private float _moveSpeed = 1.0f;
     [SerializeField]
     private bool _godMode = false;
-    public float Speed {  get => _nowSpeed;  set => _nowSpeed += value; }
+    public float Speed {  get => _nowSpeed;  set => _nowSpeed = value; }
     public bool God {  get => _godMode; set => _godMode = value; }
     private Rigidbody _rb = null;
     private float _h;
@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour, IPlayer
     {
         if (other.gameObject.TryGetComponent<IItem>(out IItem item))
         {
-            Debug.Log("ƒAƒCƒeƒ€‚ðŽæ“¾");
+            Debug.Log(_nowSpeed);
             item.Execute(this);
         }
     }
