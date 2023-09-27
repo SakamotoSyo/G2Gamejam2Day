@@ -13,6 +13,7 @@ public class Wig_System : MonoBehaviour
 
     void Start()
     {
+
     }
 
     void FixedUpdate()
