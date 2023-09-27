@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 
@@ -5,7 +6,6 @@ public class PlayerController : MonoBehaviour, IPlayer
 {
     [SerializeField]
     private float _moveSpeed = 1.0f;
-    [SerializeField]
     private bool _godMode = false;
     public float Speed {  get => _nowSpeed;  set => _nowSpeed = value; }
     public bool God {  get => _godMode; set => _godMode = value; }
@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour, IPlayer
     private float _h;
     private float _v;
     private float _jump;
-    [SerializeField]
     private bool _isGrounded = false;
     [SerializeField]
     private float _jumpPower = 1.0f;
@@ -29,6 +28,10 @@ public class PlayerController : MonoBehaviour, IPlayer
     private GameObject _invincible;
     public float DefaultSpeed { get => _moveSpeed; }
     private float _nowSpeed;
+    private Animator _animator;
+    [SerializeField]
+    private float _stunTime;
+    private bool _isStun;
 
     private void Start()
     {
@@ -36,6 +39,7 @@ public class PlayerController : MonoBehaviour, IPlayer
         _effect.Stop();
         _invincible.SetActive(false);
         _nowSpeed = _moveSpeed;
+        _animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -69,7 +73,7 @@ public class PlayerController : MonoBehaviour, IPlayer
     {
         var dis = Vector3.Distance(_goalPosition.position, this.transform.position);
 
-        if (dis < 5)
+        if (dis < 5 || _isStun)
         {
             _rb.velocity = Vector3.zero;
             return;
@@ -95,9 +99,16 @@ public class PlayerController : MonoBehaviour, IPlayer
     {
         _effect.Play();
     }
-    public void DecelerationEffect()
+    public async void DecelerationEffect()
     {
+        _isStun = true;
+        Debug.Log(_isStun);
         _effect.Stop();
+        _animator.SetBool("IsStop", _isStun);
+        await UniTask.WaitForSeconds(_stunTime);
+        _isStun = false;
+        _animator.SetBool("IsStop", _isStun);
+        Debug.Log(_isStun);
     }
 
     public void InvincibleEffectOn()
