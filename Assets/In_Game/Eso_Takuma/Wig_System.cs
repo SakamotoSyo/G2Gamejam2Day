@@ -25,7 +25,7 @@ public class Wig_System : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("当たった");
+        Debug.Log(other.tag);
         if (other.gameObject.CompareTag("peoples"))
         {
             SceneManager.LoadScene("result");
