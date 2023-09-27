@@ -7,9 +7,9 @@ public class GameOverScene : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "")
+        if(other.gameObject.tag == "peoples")
         {
-            SceneManager.LoadScene("");
+            SceneManager.LoadScene("result");
         }
     }
 
