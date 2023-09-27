@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 
@@ -18,6 +16,8 @@ public class PlayerController : MonoBehaviour, IPlayer
     private bool _isGrounded = false;
     [SerializeField]
     private float _jumpPower = 1.0f;
+    [SerializeField]
+    private Transform _goalPosition;
 
     private void Start()
     {
@@ -42,7 +42,15 @@ public class PlayerController : MonoBehaviour, IPlayer
 
     private void Move()
     {
-        Vector3 dir = Vector3.forward;
+        var dis = Vector3.Distance(_goalPosition.position, this.transform.position);
+
+        if (dis < 5)
+        {
+            _rb.velocity = Vector3.zero;
+            return;
+        }
+
+        Vector3 dir = _goalPosition.position - this.transform.position;
         dir.y = 0;
         dir = dir.normalized * _moveSpeed;
         float y = _rb.velocity.y;
