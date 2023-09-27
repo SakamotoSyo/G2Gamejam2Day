@@ -6,6 +6,11 @@ TagManager:
   tags:
   - ' peoples'
   - Ground
+  - normal
+  - hard
+  - easy
+  - wig
+  - peoples
   layers:
   - Default
   - TransparentFX

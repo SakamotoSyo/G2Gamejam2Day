@@ -30,7 +30,7 @@ public class Wig_System : MonoBehaviour
         {
             SceneManager.LoadScene("result");
         }
-        else if (other.gameObject.CompareTag("wig"))
+        else if (other.gameObject.CompareTag("Player"))
         {
             SceneManager.LoadScene("Clear");
         }
