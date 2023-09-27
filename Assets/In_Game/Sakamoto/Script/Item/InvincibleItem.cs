@@ -9,6 +9,7 @@ public class InvincibleItem : MonoBehaviour, IItem
     [SerializeField] private float _invincibleNum = 3;
     public void Execute(IPlayer player)
     {
+        if (player.God) return;
         Invincible(player).Forget();
     }
 
