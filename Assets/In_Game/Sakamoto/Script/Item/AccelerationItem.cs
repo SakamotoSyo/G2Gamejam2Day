@@ -14,5 +14,7 @@ public class AccelerationItem : MonoBehaviour, IItem
     public void Execute(IPlayer player)
     {
         player.Speed += _acceletarion;
+        Debug.Log("スピードアップ");
+        player.AccelerationEffect();
     }
 }

@@ -8,8 +8,8 @@ using UnityEngine.SceneManagement;
 public class Wig_System : MonoBehaviour
 {
     [SerializeField] GameObject gameover_zone = null;
-    public float wig_speed = 0.2f;//‚©‚Â‚ç‚ÌˆÚ“®‘¬“x
-    public float wig_degree = 3;//‚©‚Â‚ç‚ÌU‚ê•
+    public float wig_speed = 0.2f;//ã‹ã¤ã‚‰ã®ç§»å‹•é€Ÿåº¦
+    public float wig_degree = 3;//ã‹ã¤ã‚‰ã®æŒ¯ã‚Œå¹…
 
     void Start()
     {
@@ -25,7 +25,7 @@ public class Wig_System : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("“–‚½‚Á‚½");
+        Debug.Log("å½“ãŸã£ãŸ");
         if (other.gameObject.CompareTag("peoples"))
         {
             SceneManager.LoadScene("result");

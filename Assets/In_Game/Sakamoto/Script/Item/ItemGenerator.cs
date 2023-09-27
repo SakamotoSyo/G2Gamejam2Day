@@ -16,8 +16,11 @@ public class ItemGenerator : MonoBehaviour
 
     [SerializeField] private List<StageGachaData> _itemGachaList = new List<StageGachaData>();
 
+    private float _startY;
+
     private void Start()
     {
+        _startY = _startPos.position.y;
         StartCoroutine(ItemGenerate());
     }
 
@@ -29,7 +32,7 @@ public class ItemGenerator : MonoBehaviour
         time += randomNum;
         yield return new WaitForSeconds(time);
 
-        Instantiate(_itemGachaList[StageChoose()].Prefab, gameObject.transform.position, gameObject.transform.rotation);
+        Instantiate(_itemGachaList[StageChoose()].Prefab, new Vector3(_startPos.position.x, _startY, _startPos.position.z), gameObject.transform.rotation);
         Debug.Log("生成");
         StartCoroutine(ItemGenerate());
     }
