@@ -12,7 +12,7 @@ public class DecelerationItem : MonoBehaviour, IItem
 
     public void Execute(IPlayer player)
     {
-        player.Speed -= _decelerationNum;
+        player.Speed = player.DefaultSpeed;
         player.DecelerationEffect();
         Debug.Log("スピードがダウンしました");
     }
