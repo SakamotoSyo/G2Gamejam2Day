@@ -37,13 +37,17 @@ public class PlayerController : MonoBehaviour, IPlayer
 
     private void Update()
     {
+        if ( _moveSpeed)
+        {
+            
+        }
         _h = Input.GetAxisRaw("Horizontal");
         _v = Input.GetAxisRaw("Vertical");
         _jump = Input.GetAxisRaw("Jump");
         Ray ray = new Ray(_rayStartPos.position, Vector3.up * -0.3f);
         Debug.DrawRay(_rayStartPos.position, Vector3.up * -0.3f, Color.red);
 
-        if (Physics.Raycast(ray, 1f))
+        if (Physics.Raycast(ray, 1f, _GroundLayer))
         {
             _isGrounded = true;
         }
