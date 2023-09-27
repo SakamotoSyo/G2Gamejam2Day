@@ -46,6 +46,7 @@ public class Mini_Map : MonoBehaviour
         //Debug.Log(player_stage_ratio);
         //
         player_sprite_ratio = player_stage_ratio * sprite_total_mileage;
+        //Debug.Log(player_sprite_ratio);
         //
         player_sp.transform.localPosition = new Vector3(player_sprite_ratio + player_sprite_start_position, 0, 0);
 
@@ -54,7 +55,8 @@ public class Mini_Map : MonoBehaviour
         //Debug.Log(wig_stage_ratio);
         //
         wig_sprite_ratio = wig_stage_ratio * sprite_total_mileage;
+        //Debug.Log(wig_sprite_ratio);
         //
-        wig_sp.transform.localPosition = new Vector3(wig_sprite_ratio - wig_sprite_start_position, 0, 0);
+        wig_sp.transform.localPosition = new Vector3(wig_sprite_ratio + player_sprite_start_position, 0, 0);
     }
 }
