@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour, IPlayer
     private float _moveSpeed = 1.0f;
     [SerializeField]
     private bool _godMode = false;
-    public float Speed {  get => _moveSpeed;  set => _moveSpeed += value; }
+    public float Speed {  get => _nowSpeed;  set => _nowSpeed = value; }
     public bool God {  get => _godMode; set => _godMode = value; }
     private Rigidbody _rb = null;
     private float _h;
@@ -27,12 +27,15 @@ public class PlayerController : MonoBehaviour, IPlayer
     ParticleSystem _effect;
     [SerializeField]
     private GameObject _invincible;
+    public float DefaultSpeed { get => _moveSpeed; }
+    private float _nowSpeed;
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
         _effect.Stop();
         _invincible.SetActive(false);
+        _nowSpeed = _moveSpeed;
     }
 
     private void Update()
@@ -43,7 +46,7 @@ public class PlayerController : MonoBehaviour, IPlayer
         Ray ray = new Ray(_rayStartPos.position, Vector3.up * -0.3f);
         Debug.DrawRay(_rayStartPos.position, Vector3.up * -0.3f, Color.red);
 
-        if (Physics.Raycast(ray, 1f))
+        if (Physics.Raycast(ray, 1f, _GroundLayer))
         {
             _isGrounded = true;
         }
@@ -74,10 +77,10 @@ public class PlayerController : MonoBehaviour, IPlayer
 
         Vector3 dir = _goalPosition.position - this.transform.position;
         dir.y = 0;
-        dir = dir.normalized * _moveSpeed;
+        dir = dir.normalized * _nowSpeed;
         float y = _rb.velocity.y;
 
-        _rb.velocity = dir * _moveSpeed + Vector3.up * y;
+        _rb.velocity = dir * _nowSpeed + Vector3.up * y;
     }
     private void OnTriggerEnter(Collider other)
     {
