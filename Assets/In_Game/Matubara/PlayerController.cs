@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 
@@ -5,9 +6,8 @@ public class PlayerController : MonoBehaviour, IPlayer
 {
     [SerializeField]
     private float _moveSpeed = 1.0f;
-    [SerializeField]
     private bool _godMode = false;
-    public float Speed {  get => _moveSpeed;  set => _moveSpeed += value; }
+    public float Speed {  get => _nowSpeed;  set => _nowSpeed = value; }
     public bool God {  get => _godMode; set => _godMode = value; }
     private Rigidbody _rb = null;
     private float _h;
@@ -18,10 +18,32 @@ public class PlayerController : MonoBehaviour, IPlayer
     private float _jumpPower = 1.0f;
     [SerializeField]
     private Transform _goalPosition;
+    [SerializeField]
+    Transform _rayStartPos;
+    [SerializeField]
+    LayerMask _GroundLayer;
+    [SerializeField]
+    ParticleSystem _effect;
+    [SerializeField]
+    private GameObject _invincible;
+    public float DefaultSpeed { get => _moveSpeed; }
+    private float _nowSpeed;
+    private Animator _animator;
+    [SerializeField]
+    private float _stunTime;
+    private bool _isStun;
+    [SerializeField]
+    private ParticleSystem _hitEffect;
+    [SerializeField]
+    private float _stopDistance;
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _effect.Stop();
+        _invincible.SetActive(false);
+        _nowSpeed = _moveSpeed;
+        _animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -29,6 +51,17 @@ public class PlayerController : MonoBehaviour, IPlayer
         _h = Input.GetAxisRaw("Horizontal");
         _v = Input.GetAxisRaw("Vertical");
         _jump = Input.GetAxisRaw("Jump");
+        Ray ray = new Ray(_rayStartPos.position, Vector3.up * -0.3f);
+        Debug.DrawRay(_rayStartPos.position, Vector3.up * -0.3f, Color.red);
+
+        if (Physics.Raycast(ray, 1f, _GroundLayer))
+        {
+            _isGrounded = true;
+        }
+        else
+        {
+            _isGrounded = false;
+        }
     }
 
     private void FixedUpdate()
@@ -44,7 +77,7 @@ public class PlayerController : MonoBehaviour, IPlayer
     {
         var dis = Vector3.Distance(_goalPosition.position, this.transform.position);
 
-        if (dis < 5)
+        if (dis < _stopDistance || _isStun)
         {
             _rb.velocity = Vector3.zero;
             return;
@@ -52,27 +85,41 @@ public class PlayerController : MonoBehaviour, IPlayer
 
         Vector3 dir = _goalPosition.position - this.transform.position;
         dir.y = 0;
-        dir = dir.normalized * _moveSpeed;
+        dir = dir.normalized * _nowSpeed;
         float y = _rb.velocity.y;
 
-        _rb.velocity = dir * _moveSpeed + Vector3.up * y;
+        _rb.velocity = dir * _nowSpeed + Vector3.up * y;
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Ground")
+        if (other.gameObject.TryGetComponent<IItem>(out IItem item))
         {
-            _isGrounded = true;
-        }
-        else if (other.gameObject.TryGetComponent<IItem>(out IItem item))
-        {
+            Debug.Log(_nowSpeed);
             item.Execute(this);
         }
     }
-    private void OnTriggerExit(Collider other)
+
+    public void AccelerationEffect()
     {
-        if (other.gameObject.tag == "Ground")
-        {
-            _isGrounded = false;
-        }
+        _effect.Play();
+    }
+    public async void DecelerationEffect()
+    {
+        _isStun = true;
+        _effect.Stop();
+        _animator.SetBool("IsStop", _isStun);
+        _hitEffect.Play();
+        await UniTask.WaitForSeconds(_stunTime);
+        _isStun = false;
+        _animator.SetBool("IsStop", _isStun);
+    }
+
+    public void InvincibleEffectOn()
+    {
+        _invincible.SetActive(true);
+    }
+    public void InvincibleEffectOff()
+    {
+        _invincible.SetActive(false);
     }
 }
