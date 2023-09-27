@@ -42597,7 +42597,7 @@ GameObject:
   m_Component:
   - component: {fileID: 917459329}
   - component: {fileID: 917459330}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Collider
   m_TagString: Ground
   m_Icon: {fileID: 0}
