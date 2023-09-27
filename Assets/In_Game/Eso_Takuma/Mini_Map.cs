@@ -37,6 +37,7 @@ public class Mini_Map : MonoBehaviour
         wig_sprite_start_position = wig_sp.transform.localPosition.x;
         object_total_mileage = Vector3.Distance(player.transform.position, gameover_zone.transform.position);
         sprite_total_mileage = Vector3.Distance(player_sp.transform.localPosition, gameover_zone_sp.transform.localPosition);
+
     }
     void Update()
     {
@@ -52,6 +53,7 @@ public class Mini_Map : MonoBehaviour
         //
         wig_sprite_ratio = wig_stage_ratio * sprite_total_mileage;
         //
-        wig_sp.transform.localPosition = new Vector3(wig_sprite_ratio + wig_sprite_start_position, 0, 0);
+        wig_sp.transform.localPosition = new Vector3(wig_sprite_ratio - wig_sprite_start_position, 0, 0);
+        Debug.Log(wig_sprite_start_position + wig_sprite_ratio);
     }
 }
