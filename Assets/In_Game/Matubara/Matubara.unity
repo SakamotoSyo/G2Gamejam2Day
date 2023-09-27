@@ -336,6 +336,10 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 6444630651500189905, guid: 80bb5432476944d449203e282686c32b, type: 3}
+      propertyPath: _stunTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6444630651500189905, guid: 80bb5432476944d449203e282686c32b, type: 3}
       propertyPath: _goalPosition
       value: 
       objectReference: {fileID: 2107503275}

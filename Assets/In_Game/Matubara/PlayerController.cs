@@ -32,6 +32,10 @@ public class PlayerController : MonoBehaviour, IPlayer
     [SerializeField]
     private float _stunTime;
     private bool _isStun;
+    [SerializeField]
+    private ParticleSystem _hitEffect;
+    [SerializeField]
+    private float _stopDistance;
 
     private void Start()
     {
@@ -73,7 +77,7 @@ public class PlayerController : MonoBehaviour, IPlayer
     {
         var dis = Vector3.Distance(_goalPosition.position, this.transform.position);
 
-        if (dis < 5 || _isStun)
+        if (dis < _stopDistance || _isStun)
         {
             _rb.velocity = Vector3.zero;
             return;
@@ -102,13 +106,12 @@ public class PlayerController : MonoBehaviour, IPlayer
     public async void DecelerationEffect()
     {
         _isStun = true;
-        Debug.Log(_isStun);
         _effect.Stop();
         _animator.SetBool("IsStop", _isStun);
+        _hitEffect.Play();
         await UniTask.WaitForSeconds(_stunTime);
         _isStun = false;
         _animator.SetBool("IsStop", _isStun);
-        Debug.Log(_isStun);
     }
 
     public void InvincibleEffectOn()
