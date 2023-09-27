@@ -17349,8 +17349,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 2
-  _godMode: 0
-  _isGrounded: 0
   _jumpPower: 1
   _goalPosition: {fileID: 0}
   _rayStartPos: {fileID: 7138274267816801783}
@@ -17359,6 +17357,7 @@ MonoBehaviour:
     m_Bits: 8
   _effect: {fileID: 2674689970109303818}
   _invincible: {fileID: 5908479983471401465}
+  _stunTime: 1
 --- !u!136 &7671544012239613443
 CapsuleCollider:
   m_ObjectHideFlags: 0
