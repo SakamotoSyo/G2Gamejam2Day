@@ -21,6 +21,17 @@ public class ItemGenerator : MonoBehaviour
     private void Start()
     {
         _startY = _startPos.position.y;
+        FirstItem();
+        
+    }
+
+    /// <summary>
+    /// 最初のアイテム
+    /// </summary>
+    private void FirstItem() 
+    {
+        Instantiate(_itemGachaList[(int)ItemType.Acceleration].Prefab, new Vector3(_startPos.position.x, _startY, _startPos.position.z)
+            , gameObject.transform.rotation);
         StartCoroutine(ItemGenerate());
     }
 
@@ -83,8 +94,8 @@ public class ItemGenerator : MonoBehaviour
     public enum ItemType
     {
         Invincible,
-        Deceleration,
         Acceleration,
+        Deceleration,
     }
 
 }
