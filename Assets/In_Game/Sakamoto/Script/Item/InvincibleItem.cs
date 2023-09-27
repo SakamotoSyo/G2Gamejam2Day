@@ -10,6 +10,7 @@ public class InvincibleItem : MonoBehaviour, IItem
     public void Execute(IPlayer player)
     {
         if (player.God) return;
+        player.InvincibleEffectOn();
         Invincible(player).Forget();
     }
 
@@ -18,6 +19,7 @@ public class InvincibleItem : MonoBehaviour, IItem
         player.God = true;
         await UniTask.WaitForSeconds(_invincibleNum);
         player.God = false;
+        player.InvincibleEffectOff();
     }
 
 }
