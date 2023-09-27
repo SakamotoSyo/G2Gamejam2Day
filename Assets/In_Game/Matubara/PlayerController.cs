@@ -13,15 +13,26 @@ public class PlayerController : MonoBehaviour, IPlayer
     private float _h;
     private float _v;
     private float _jump;
+    [SerializeField]
     private bool _isGrounded = false;
     [SerializeField]
     private float _jumpPower = 1.0f;
     [SerializeField]
     private Transform _goalPosition;
+    [SerializeField]
+    Transform _rayStartPos;
+    [SerializeField]
+    LayerMask _GroundLayer;
+    [SerializeField]
+    ParticleSystem _effect;
+    [SerializeField]
+    private GameObject _invincible;
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _effect.Stop();
+        _invincible.SetActive(false);
     }
 
     private void Update()
@@ -29,6 +40,17 @@ public class PlayerController : MonoBehaviour, IPlayer
         _h = Input.GetAxisRaw("Horizontal");
         _v = Input.GetAxisRaw("Vertical");
         _jump = Input.GetAxisRaw("Jump");
+        Ray ray = new Ray(_rayStartPos.position, Vector3.up * -0.3f);
+        Debug.DrawRay(_rayStartPos.position, Vector3.up * -0.3f, Color.red);
+
+        if (Physics.Raycast(ray, 1f))
+        {
+            _isGrounded = true;
+        }
+        else
+        {
+            _isGrounded = false;
+        }
     }
 
     private void FixedUpdate()
@@ -59,20 +81,28 @@ public class PlayerController : MonoBehaviour, IPlayer
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Ground")
+        if (other.gameObject.TryGetComponent<IItem>(out IItem item))
         {
-            _isGrounded = true;
-        }
-        else if (other.gameObject.TryGetComponent<IItem>(out IItem item))
-        {
+            Debug.Log("ƒAƒCƒeƒ€‚ðŽæ“¾");
             item.Execute(this);
         }
     }
-    private void OnTriggerExit(Collider other)
+
+    public void AccelerationEffect()
     {
-        if (other.gameObject.tag == "Ground")
-        {
-            _isGrounded = false;
-        }
+        _effect.Play();
+    }
+    public void DecelerationEffect()
+    {
+        _effect.Stop();
+    }
+
+    public void InvincibleEffectOn()
+    {
+        _invincible.SetActive(true);
+    }
+    public void InvincibleEffectOff()
+    {
+        _invincible.SetActive(false);
     }
 }
