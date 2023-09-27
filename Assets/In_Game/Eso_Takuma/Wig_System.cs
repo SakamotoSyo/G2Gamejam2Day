@@ -19,8 +19,9 @@ public class Wig_System : MonoBehaviour
     void FixedUpdate()
     {
         float sin = Mathf.Sin(Time.time);
-        this.transform.localPosition = new Vector3(0, sin * wig_degree, this.transform.position.z);
-        this.transform.localPosition += new Vector3(0, 0, wig_speed);//ˆÚ“®
+        var dir = transform.TransformDirection(transform.forward);
+        this.transform.localPosition += dir * wig_speed;
+        //this.transform.localPosition += new Vector3(0, 0, wig_speed);//ˆÚ“®
         transform.LookAt(gameover_zone.transform);
     }
     void OnTriggerEnter(Collider other)
