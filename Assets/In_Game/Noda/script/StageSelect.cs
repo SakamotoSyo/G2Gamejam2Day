@@ -7,7 +7,7 @@ public class StageSelect : MonoBehaviour
     public void OnClickStartButton(string diffcalt)
     {
 
-        SceneManager.LoadScene("StageSelect");
+        SceneManager.LoadScene("Main");
     }
 }
 
