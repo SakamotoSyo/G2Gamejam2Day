@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour, IPlayer
         Ray ray = new Ray(_rayStartPos.position, Vector3.up * -0.3f);
         Debug.DrawRay(_rayStartPos.position, Vector3.up * -0.3f, Color.red);
 
-        if (Physics.Raycast(ray, 1f, _GroundLayer))
+        if (Physics.Raycast(ray, 0.3f, _GroundLayer))
         {
             _isGrounded = true;
         }
@@ -62,14 +62,22 @@ public class PlayerController : MonoBehaviour, IPlayer
         {
             _isGrounded = false;
         }
+
+        _animator.SetBool("Jump", _isGrounded);
     }
 
     private void FixedUpdate()
     {
         Move();
+        Jump();
+    }
+
+    private void Jump()
+    {
         if (_jump > 0 && _isGrounded)
         {
             _rb.AddForce(transform.up * _jumpPower, ForceMode.Impulse);
+            
         }
     }
 
